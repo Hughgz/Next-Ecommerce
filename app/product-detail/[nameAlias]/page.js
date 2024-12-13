@@ -1,6 +1,7 @@
 "use client"; // Ensure this is a client component
 
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async"; // Import Helmet for meta tags
 
 // Function to dynamically load Facebook SDK
 const loadFacebookSDK = () => {
@@ -13,7 +14,7 @@ const loadFacebookSDK = () => {
       script.onload = () => {
         window.fbAsyncInit = function () {
           FB.init({
-            appId: "947940970532246", // Replace with your actual Facebook App ID
+            appId: "947940970532246",
             cookie: true,
             xfbml: true,
             version: "v17.0",
@@ -83,6 +84,18 @@ export default function ProductDetail({ params }) {
 
   return (
     <div className="container mx-auto py-12 px-4">
+      {/* Meta tags for Open Graph */}
+      <Helmet>
+        <meta name="description" content={product.description} />
+        <meta name="title" content={product.name} />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:type" content="product" />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:image" content={product.imageURL || "https://res.cloudinary.com/dahzoj4fy/image/upload/v1733244037/fg6rbhwjrx2cyrq6uc7i.png"} />
+        <title>{product.name}</title>
+      </Helmet>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product Image */}
         <div className="flex justify-center items-center">

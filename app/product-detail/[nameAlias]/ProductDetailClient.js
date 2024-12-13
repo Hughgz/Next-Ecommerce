@@ -2,6 +2,7 @@
 
 "use client";
 
+import { formatPrice } from "@/hooks/useUtil";
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
@@ -81,9 +82,12 @@ export default function ProductDetailClient({ product }) {
                 id="size-select"
                 className="border border-gray-300 rounded-md p-2 w-full"
               >
-                {product.productSizes.map((size, index) => (
-                  <option key={index} value={size.size}>
-                    {size.size} - {size.quantity > 0 ? `${size.quantity} available` : "Out of stock"}
+                {product.productSizes
+                .sort((a, b) => a.size - b.size)
+                .map((size, index) => (
+                  <option key={index} value={JSON.stringify(size)}>
+                    EU {size.size} - {formatPrice(size.price)}{" "}
+                    {size.quantity <= 3 ? `(only ${size.quantity} left)` : ""}
                   </option>
                 ))}
               </select>
@@ -95,9 +99,7 @@ export default function ProductDetailClient({ product }) {
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700">
               Add to Cart
             </button>
-            <button className="text-red-500 hover:text-red-600">
-              <i className="fas fa-heart"></i> Add to Wishlist
-            </button>
+            
           </div>
         </div>
       </div>

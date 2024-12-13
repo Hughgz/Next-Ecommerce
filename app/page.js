@@ -1,69 +1,68 @@
-'use client'; // Mark as a client component
+import React from 'react';
 
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation'; // We will use this for routing to the product details page
-
-export default function Home() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const router = useRouter(); // Initialize the router to navigate to a product's detail page
-
-  useEffect(() => {
-    // Fetch products from API
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('https://lthshop.azurewebsites.net/api/Products');
-        setProducts(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (loading) return <p className="text-center text-lg text-gray-500">Loading products...</p>;
-  if (error) return <p className="text-center text-lg text-red-500">Error: {error}</p>;
-
-  const handleViewDetails = (nameAlias) => {
-    router.push(`/product-detail/${nameAlias}`);
-  };
-
+function Home() {
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-semibold text-center mb-8">Product List</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300"
-          >
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">{product.name}</h3>
-            <p className="text-lg text-green-600 mb-4">Price: ${product.price}</p>
-            {product.imageURL && (
-              <img
-                src={product.imageURL}
-                alt={product.name}
-                className="w-full h-48 object-cover rounded-md mb-4"
-              />
-            )}
-            <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors duration-200 mb-2">
-              Add to Cart
-            </button>
-            <button
-              className="w-full bg-gray-500 text-white py-2 rounded-md hover:bg-gray-600 transition-colors duration-200"
-              onClick={() => handleViewDetails(product.nameAlias)} // Handle click to view product details
-            >
-              View Details
-            </button>
-          </div>
-        ))}
+    <>
+      <div className='hero'>
+        <div className='hero-circle'></div>
+        <img className='hero-img' src="https://res.cloudinary.com/dahzoj4fy/image/upload/v1734125970/dlxbl4w8hx7cszxdwlkw.png" alt=""/>
       </div>
-    </div>
+      <div className='hero-about'>
+        <div>
+          <p>LIMITED OFFER</p>
+          <h3>SAVE 10%</h3>
+          <p>USE DISCOUNT</p>
+          <button>10 OFF</button>
+        </div>
+      </div>
+      <div className='container'>
+        <h1>Just arrived...</h1>
+        {/* Shop brand */}
+        <div className="bg-neutral-100 py-16">
+          <div className="max-w-screen-xl px-4 mx-auto w-full grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
+            <div to="/sneakers/nike">
+              <img src="https://images.squarespace-cdn.com/content/v1/5e31b33a1b5911193c47e7b5/279b45e0-3243-4e58-aee2-dd18403e2085/nike-swoosh-logo.jpeg" alt="Nike" className="w-full object-cover sm:h-full" />
+              <div className="mt-4">
+                <a className="font-semibold uppercase" href="/sneakers/nike">Nike</a>
+              </div>
+            </div>
+            <div to="/sneakers/adidas">
+              <img src="https://cdn.britannica.com/94/193794-050-0FB7060D/Adidas-logo.jpg" alt="Adidas" className="w-full object-cover sm:h-full" />
+              <div className="mt-4">
+                <a className="font-semibold uppercase" href="/sneakers/adidas">Adidas</a>
+              </div>
+            </div>
+            <div to="/sneakers/jordan">
+              <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/37/Jumpman_logo.svg/1200px-Jumpman_logo.svg.png" alt="Jordan" className="w-full object-cover sm:h-full" />
+              <div className="mt-4">
+                <a className="font-semibold uppercase" href="/sneakers/jordan">Jordan</a>
+              </div>
+            </div>
+            <div to="/sneakers/new-balance">
+              <img src="https://logowik.com/content/uploads/images/new-balance.jpg" alt="New Balance" className="w-full object-cover sm:h-full" />
+              <div className="mt-4">
+                <a className="font-semibold uppercase" href="/sneakers/new-balance">New Balance</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Sign up */}
+        <div className="relative overflow-hidden">
+          <img src="https://migogkbh.dk/wp-content/uploads/2023/01/Skaermbillede-2023-01-26-kl.-10.12.43-1200x686.png" alt="" className="absolute h-full w-full object-cover brightness-50" />
+          <div className="max-w-screen-xl px-4 mx-auto w-full relative flex flex-col py-24 md:flex-row md:justify-between">
+            <div>
+              <h2 className="text-3xl font-semibold text-white">Subscribe to our newsletter</h2>
+              <p className="mt-4 text-lg text-gray-200">Get the latest news and updates</p>
+            </div>
+            <div className="mt-6 flex overflow-hidden rounded-md">
+              <input type="email" placeholder="Enter your email" className="h-12 w-full border-none bg-black/50 px-4 text-white focus:outline-none" />
+              <button className="h-12 whitespace-nowrap bg-black px-4 text-white">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
+
+export default Home;

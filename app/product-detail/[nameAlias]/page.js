@@ -1,7 +1,7 @@
-"use client"; // Ensure this is a client component
+// File: pages/product/[nameAlias].js
 
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet"; // Import Helmet for meta tags
+import { Helmet } from "react-helmet";
 
 // Function to dynamically load Facebook SDK
 const loadFacebookSDK = () => {
@@ -27,42 +27,42 @@ const loadFacebookSDK = () => {
   });
 };
 
-export default function ProductDetail({ params }) {
-  const { nameAlias } = React.use(params); // Get dynamic segment from the URL
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export async function getServerSideProps(context) {
+  const { nameAlias } = context.params;
+  let product = null;
+  let error = null;
+
+  try {
+    // Fetch product details from your API
+    const response = await fetch("https://lthshop.azurewebsites.net/api/Products");
+    const products = await response.json();
+    product = products.find((p) => p.nameAlias === nameAlias);
+
+    if (!product) {
+      throw new Error("Product not found");
+    }
+  } catch (err) {
+    error = err.message;
+  }
+
+  return {
+    props: {
+      product,
+      error,
+    },
+  };
+}
+
+export default function ProductDetail({ product, error }) {
   const [fbLoaded, setFbLoaded] = useState(false);
 
-  // Fetch product details on client-side
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await fetch("https://lthshop.azurewebsites.net/api/Products");
-        const products = await response.json();
-        const foundProduct = products.find((p) => p.nameAlias === nameAlias);
-        if (!foundProduct) {
-          throw new Error("Product not found");
-        }
-        setProduct(foundProduct);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
-      }
-    };
-
-    fetchProduct();
-  }, [nameAlias]);
-
-  // Load Facebook SDK
+  // Load Facebook SDK on client-side
   useEffect(() => {
     loadFacebookSDK().then(() => {
       setFbLoaded(true);
     });
   }, []);
 
-  // Handle Facebook Share Button Click
   const handleShareOnFacebook = () => {
     if (fbLoaded && window.FB) {
       FB.ui(
@@ -79,8 +79,8 @@ export default function ProductDetail({ params }) {
     }
   };
 
-  if (loading) return <div className="text-center py-10">Loading...</div>;
   if (error) return <div className="text-center text-red-500 py-10">Error: {error}</div>;
+  if (!product) return <div className="text-center py-10">Product not found</div>;
 
   return (
     <div className="container mx-auto py-12 px-4">

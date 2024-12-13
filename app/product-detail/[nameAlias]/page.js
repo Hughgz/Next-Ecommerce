@@ -1,7 +1,7 @@
 "use client"; // Ensure this is a client component
 
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet-async"; // Import Helmet for meta tags
+import { Helmet } from "react-helmet"; // Import Helmet for meta tags
 
 // Function to dynamically load Facebook SDK
 const loadFacebookSDK = () => {

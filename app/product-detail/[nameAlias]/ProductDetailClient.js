@@ -1,9 +1,11 @@
+// app/product-detail/[nameAlias]/ProductDetailClient.js
+
 "use client";
 
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
-// Hàm tải Facebook SDK
+// Function to load Facebook SDK
 const loadFacebookSDK = () => {
   return new Promise((resolve) => {
     if (typeof window !== "undefined" && !window.FB) {
@@ -35,16 +37,6 @@ export default function ProductDetailClient({ product }) {
       setFbLoaded(true);
     });
   }, []);
-
-  // Hàm chia sẻ lên Twitter với hình ảnh
-  const shareOnTwitter = () => {
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-      product.name
-    )}&url=${encodeURIComponent(window.location.href)}&hashtags=product,shopping&via=yourtwitterhandle&description=${encodeURIComponent(
-      product.description
-    )}&image=${encodeURIComponent(product.imageURL)}`;
-    window.open(twitterUrl, "_blank");
-  };
 
   return (
     <div className="container mx-auto py-12 px-4">
@@ -110,9 +102,8 @@ export default function ProductDetailClient({ product }) {
         </div>
       </div>
 
-      {/* Chia sẻ lên mạng xã hội */}
+      {/* Chia sẻ mạng xã hội */}
       <div className="flex justify-center mt-8 space-x-4">
-        {/* Chia sẻ lên Facebook */}
         <button
           className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"
           onClick={() => {
@@ -131,11 +122,14 @@ export default function ProductDetailClient({ product }) {
         >
           Share on Facebook
         </button>
-
-        {/* Chia sẻ lên Twitter */}
         <button
           className="bg-blue-400 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-500"
-          onClick={shareOnTwitter}
+          onClick={() => {
+            const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+              product.name
+            )}&url=${encodeURIComponent(window.location.href)}&hashtags=product,shopping`;
+            window.open(twitterUrl, "_blank");
+          }}
         >
           Share on Twitter
         </button>

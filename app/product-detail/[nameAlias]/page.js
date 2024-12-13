@@ -1,5 +1,7 @@
 // File: pages/product/[nameAlias].js
 
+"use client";  // Đánh dấu đây là một client-side component
+
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
@@ -14,7 +16,7 @@ const loadFacebookSDK = () => {
       script.onload = () => {
         window.fbAsyncInit = function () {
           FB.init({
-            appId: "947940970532246",
+            appId: "947940970532246", // Thay đổi appId của bạn
             cookie: true,
             xfbml: true,
             version: "v17.0",
@@ -27,13 +29,14 @@ const loadFacebookSDK = () => {
   });
 };
 
+// Lấy dữ liệu sản phẩm phía server
 export async function getServerSideProps(context) {
   const { nameAlias } = context.params;
   let product = null;
   let error = null;
 
   try {
-    // Fetch product details from your API
+    // Fetch product details từ API
     const response = await fetch("https://lthshop.azurewebsites.net/api/Products");
     const products = await response.json();
     product = products.find((p) => p.nameAlias === nameAlias);
@@ -56,13 +59,14 @@ export async function getServerSideProps(context) {
 export default function ProductDetail({ product, error }) {
   const [fbLoaded, setFbLoaded] = useState(false);
 
-  // Load Facebook SDK on client-side
+  // Chỉ tải Facebook SDK khi đã render client-side
   useEffect(() => {
     loadFacebookSDK().then(() => {
       setFbLoaded(true);
     });
   }, []);
 
+  // Xử lý chia sẻ lên Facebook
   const handleShareOnFacebook = () => {
     if (fbLoaded && window.FB) {
       FB.ui(
@@ -79,12 +83,15 @@ export default function ProductDetail({ product, error }) {
     }
   };
 
+  // Nếu có lỗi
   if (error) return <div className="text-center text-red-500 py-10">Error: {error}</div>;
+
+  // Nếu không tìm thấy sản phẩm
   if (!product) return <div className="text-center py-10">Product not found</div>;
 
   return (
     <div className="container mx-auto py-12 px-4">
-      {/* Meta tags for Open Graph */}
+      {/* Meta tags cho SEO */}
       <Helmet>
         <meta name="description" content={product.description} />
         <meta name="title" content={product.name} />
@@ -97,7 +104,7 @@ export default function ProductDetail({ product, error }) {
       </Helmet>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product Image */}
+        {/* Hình ảnh sản phẩm */}
         <div className="flex justify-center items-center">
           <img
             src={product.imageURL}
@@ -106,7 +113,7 @@ export default function ProductDetail({ product, error }) {
           />
         </div>
 
-        {/* Product Details */}
+        {/* Thông tin sản phẩm */}
         <div className="space-y-6">
           <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
           <h2 className="text-xl font-semibold text-gray-600">{product.brand}</h2>
@@ -115,7 +122,7 @@ export default function ProductDetail({ product, error }) {
             {product.price ? `$${product.price}` : "Price not available"}
           </div>
 
-          {/* Available Sizes */}
+          {/* Kích thước sản phẩm */}
           {product.productSizes && product.productSizes.length > 0 && (
             <div>
               <label htmlFor="size-select" className="block text-gray-700 font-medium mb-2">
@@ -134,7 +141,7 @@ export default function ProductDetail({ product, error }) {
             </div>
           )}
 
-          {/* Buttons */}
+          {/* Các nút thao tác */}
           <div className="flex justify-between items-center mt-6">
             <button className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700">
               Add to Cart
@@ -146,7 +153,7 @@ export default function ProductDetail({ product, error }) {
         </div>
       </div>
 
-      {/* Share Buttons */}
+      {/* Nút chia sẻ */}
       <div className="flex justify-center mt-8 space-x-4">
         <button
           className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"

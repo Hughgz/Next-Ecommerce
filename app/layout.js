@@ -21,10 +21,29 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org/",
+              "@type": "WebSite",
+              "name": "LTH Store",
+              "url": "https://next-ecommerce-eight-omega.vercel.app",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://next-ecommerce-eight-omega.vercel.app/shop{search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header></Header>
+        
         {children}
         <Footer></Footer>
       </body>

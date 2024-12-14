@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import '../styles/main.scss'
+import "../styles/main.scss";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -28,22 +28,32 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org/",
               "@type": "WebSite",
-              "name": "LTH Store",
-              "url": "https://next-ecommerce-eight-omega.vercel.app",
-              "potentialAction": {
+              name: "LTH Store",
+              url: "https://next-ecommerce-eight-omega.vercel.app",
+              potentialAction: {
                 "@type": "SearchAction",
-                "target": "https://next-ecommerce-eight-omega.vercel.app/shop{search_term_string}",
-                "query-input": "required name=search_term_string"
-              }
+                target:
+                  "https://next-ecommerce-eight-omega.vercel.app/shop{search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
             }),
           }}
         />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-1HYQ8XTKYE"
+        ></script>
+        <script>
+          window.dataLayer = window.dataLayer || []; function gtag()
+          {dataLayer.push(arguments)}
+          gtag('js', new Date()); gtag('config', 'G-1HYQ8XTKYE');
+        </script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Header></Header>
-        
+
         {children}
         <Footer></Footer>
       </body>

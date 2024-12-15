@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
-import ProductCard from '../components/product/ProductItem';
-import { useWishlist } from '../utils/hooks/useWishlist'
+import { useWishlist } from '../../utils/hooks/useWishlist'
+import ProductCard from '@/components/product/ProductItem';
 
 function Wishlist() {
     const { wishlistItems, clearWishlist} = useWishlist();

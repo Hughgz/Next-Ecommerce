@@ -2,9 +2,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import Users from '../components/admin/UsersTable';
-import Orders from '../components/admin/OrdersTable';
-import Products from '../components/admin/ProductsTable';
+import Users from '@/components/admin/UsersTable';
+import Orders from '@/components/admin/OrdersTable';
+import Products from '@/components/admin/ProductsTable';
+
 
 const tabs = ['Products', 'Orders', 'Users'];
 

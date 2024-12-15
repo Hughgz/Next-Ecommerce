@@ -20,9 +20,21 @@ $color-blue: #0070ba;
 @import "utilities";
 
 // components
-@import "../components/header";
-@import "../components/footer";
-@import "./home"
+@import "../components/layout/header";
+@import "../components/layout/footer";
+@import "../components/checkout/confirm";
+@import "../components/product/filter";
+
+// pages
+@import "../components/wishlist/wishlist";
+@import "../components/account/account";
+@import "../components/admin/admin";
+@import "../components/auth/auth"; 
+@import "../components/cart/cart";
+@import "../components/checkout/checkout";
+@import "../components/home/home"; 
+@import "../components/product/product";
+
 
 
 

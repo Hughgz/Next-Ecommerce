@@ -17,7 +17,6 @@ function Home() {
       </div>
       <div className='container'>
         <h1>Just arrived...</h1>
-        {/* Shop brand */}
         <div className="bg-neutral-100 py-16">
           <div className="max-w-screen-xl px-4 mx-auto w-full grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4">
             <div to="/sneakers/nike">

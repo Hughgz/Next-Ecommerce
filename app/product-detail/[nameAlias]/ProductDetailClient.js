@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Helmet } from "react-helmet";
 import { formatPrice } from "@/utils/hooks/useUtil";
 import { useCart } from "@/utils/hooks/useCart";
+import Head from "next/head";
 
 // Function to load Facebook SDK
 const loadFacebookSDK = () => {
@@ -72,14 +72,14 @@ export default function ProductDetailClient({ product }) {
   return (
     <div className="container mx-auto py-12 px-4">
       {/* Meta tags */}
-      <Helmet>
+      <Head>
         <meta
           name="description"
           content={product.description || "No description available"}
         />
         <meta name="title" content={product.name || "Product Title"} />
         <title>{product.name || "Product Title"}</title>
-      </Helmet>
+      </Head>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Product image */}

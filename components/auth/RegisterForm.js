@@ -2,15 +2,24 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation'; // Sử dụng useRouter để điều hướng
+import { useDispatch } from 'react-redux';
+import { createUser } from '../../store/actions/userActions'; // Import action createUser
 
 function Register() {
   const router = useRouter(); // Khởi tạo useRouter
+  const dispatch = useDispatch(); // Dùng dispatch để gọi action Redux
   const { register, handleSubmit, formState: { errors } } = useForm();
 
   const onSubmit = async (registerData) => {
-    const user = await register(registerData); // Hàm register xử lý logic đăng ký
-    if (user) {
-      router.push('/account'); // Sử dụng router.push để điều hướng
+    try {
+      // Gửi dữ liệu đăng ký lên server
+      const user = await dispatch(createUser(registerData)).unwrap(); // unwrap() để lấy kết quả từ Thunk
+      if (user) {
+        router.push('/account'); // Điều hướng đến trang '/account'
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      alert("Registration failed. Please try again.");
     }
   };
 

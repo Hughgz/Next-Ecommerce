@@ -1,10 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "../actions/userActions";
+import { login, createUser } from "../actions/userActions";
 
-// Giá trị ban đầu không truy cập vào `localStorage`
+// Hàm an toàn để parse JSON
+const safeParseJSON = (value, defaultValue = null) => {
+  try {
+    return value ? JSON.parse(value) : defaultValue;
+  } catch {
+    return defaultValue;
+  }
+};
+
+// Giá trị ban đầu với kiểm tra client-side
 const initialState = {
-  currentUser: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("currentUser")) : null,
-  token: typeof window !== 'undefined' ? localStorage.getItem("token") : "",
+  currentUser:
+    typeof window !== "undefined"
+      ? safeParseJSON(localStorage.getItem("currentUser"), null)
+      : null,
+  token:
+    typeof window !== "undefined" ? localStorage.getItem("token") || "" : "",
   isLoading: false,
   error: null,
 };
@@ -15,7 +28,6 @@ export const userSlice = createSlice({
   reducers: {
     logout: (state) => {
       if (typeof window !== "undefined") {
-        // Chỉ gọi localStorage khi ở client-side
         localStorage.removeItem("token");
         localStorage.removeItem("currentUser");
       }
@@ -44,7 +56,6 @@ export const userSlice = createSlice({
         state.currentUser = action.payload.customer;
 
         if (typeof window !== "undefined") {
-          // Lưu vào localStorage
           localStorage.setItem(
             "currentUser",
             JSON.stringify(action.payload.customer)
@@ -59,10 +70,27 @@ export const userSlice = createSlice({
         state.currentUser = null;
 
         if (typeof window !== "undefined") {
-          // Xóa localStorage khi đăng nhập thất bại
           localStorage.removeItem("currentUser");
           localStorage.removeItem("token");
         }
+      })
+      .addCase(createUser.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(createUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.currentUser = action.payload;
+        state.token = action.payload.token;
+
+        if (typeof window !== "undefined") {
+          localStorage.setItem("currentUser", JSON.stringify(action.payload));
+          localStorage.setItem("token", action.payload.token);
+        }
+      })
+      .addCase(createUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
       });
   },
 });

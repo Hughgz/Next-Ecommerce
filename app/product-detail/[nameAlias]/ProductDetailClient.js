@@ -114,7 +114,7 @@ export default function ProductDetailClient({ product }) {
                 onChange={(e) => setSelectedSize(JSON.parse(e.target.value))}
               >
                 <option value="">Select size</option>
-                {product.productSizes
+                {[...product.productSizes]
                   .sort((a, b) => a.size - b.size)
                   .map((size, index) => (
                     <option

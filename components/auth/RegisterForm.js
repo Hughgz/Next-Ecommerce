@@ -35,6 +35,7 @@ function Register() {
             </div>
           </label>
           {errors.firstName && <span>This field is required</span>}
+
           <label className='input-label'>
             Last Name <span>*</span>
             <div className='input-wrapper'>
@@ -43,6 +44,7 @@ function Register() {
           </label>
           {errors.lastName && <span>This field is required</span>}
         </div>
+
         <label className='input-label'>
           Email <span>*</span>
           <div className='input-wrapper'>
@@ -50,6 +52,7 @@ function Register() {
           </div>
         </label>
         {errors.email && <span>This field is required</span>}
+
         <label className='input-label'>
           Phone <span>*</span>
           <div className='input-wrapper'>
@@ -57,15 +60,48 @@ function Register() {
           </div>
         </label>
         {errors.phone && <span>This field is required</span>}
+
         <label className='input-label'>
           Password <span>*</span>
           <div className='input-wrapper'>
-            <input type="password" {...register("password", { required: true, minLength: 8, maxLength: 20 })} />
+            <input
+              type="password"
+              {...register("password", { required: true, minLength: 8, maxLength: 20 })}
+            />
           </div>
         </label>
         {errors.password?.type === 'required' && <span>This field is required</span>}
         {errors.password?.type === 'minLength' && <span>Password must be at least 8 characters long</span>}
         {errors.password?.type === 'maxLength' && <span>Password must be at most 20 characters long</span>}
+
+        <label className='input-label'>
+          Address <span>*</span>
+          <div className='input-wrapper'>
+            <input type="text" {...register("address", { required: true })} />
+          </div>
+        </label>
+        {errors.address && <span>This field is required</span>}
+
+        <label className='input-label'>
+          City <span>*</span>
+          <div className='input-wrapper'>
+            <input type="text" {...register("city", { required: true })} />
+          </div>
+        </label>
+        {errors.city && <span>This field is required</span>}
+
+        <label className='input-label'>
+          Postal Code <span>*</span>
+          <div className='input-wrapper'>
+            <input
+              type="text"
+              {...register("postalCode", { required: true })}
+              defaultValue="70000" // Đặt giá trị mặc định là 70000
+            />
+          </div>
+        </label>
+        {errors.postalCode && <span>This field is required</span>}
+
         <button type="submit">REGISTER</button>
       </form>
     </div>

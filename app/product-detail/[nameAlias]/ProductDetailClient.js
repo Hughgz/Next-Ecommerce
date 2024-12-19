@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { formatPrice } from "@/utils/hooks/useUtil";
 import { useCart } from "@/utils/hooks/useCart";
 import Head from "next/head";
+import { icons } from "../../../assets/icons/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // Function to load Facebook SDK
 const loadFacebookSDK = () => {
@@ -55,23 +57,22 @@ export default function ProductDetailClient({ product }) {
     });
   };
 
-  const handleFacebookShare = () => {
-    if (fbLoaded && window.FB) {
-      window.FB.ui(
-        {
-          method: "share",
-          href: window.location.href,
-        },
-        (response) => console.log("Share response:", response)
-      );
-    } else {
-      alert("Facebook SDK is not loaded.");
-    }
-  };
+  // const handleFacebookShare = () => {
+  //   if (fbLoaded && window.FB) {
+  //     window.FB.ui(
+  //       {
+  //         method: "share",
+  //         href: window.location.href,
+  //       },
+  //       (response) => console.log("Share response:", response)
+  //     );
+  //   } else {
+  //     alert("Facebook SDK is not loaded.");
+  //   }
+  // };
 
   return (
     <div className="container mx-auto py-12 px-4">
-      {/* Meta tags */}
       <Head>
         <meta
           name="description"
@@ -80,9 +81,13 @@ export default function ProductDetailClient({ product }) {
         <meta name="title" content={product.name || "Product Title"} />
         <title>{product.name || "Product Title"}</title>
       </Head>
-
+      <div
+        className="fb-share-button fixed bottom-5"
+        data-href={window.location.href}
+        data-layout="button"
+        data-size="large"
+      ></div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* Product image */}
         <div className="flex justify-center items-center">
           <img
             src={product.imageURL || "https://via.placeholder.com/500"}
@@ -90,8 +95,6 @@ export default function ProductDetailClient({ product }) {
             className="max-w-full h-auto rounded-lg shadow-lg"
           />
         </div>
-
-        {/* Product details */}
         <div className="space-y-6">
           <h1 className="text-3xl font-bold text-gray-900">
             {product.name || "Product Name"}
@@ -132,21 +135,16 @@ export default function ProductDetailClient({ product }) {
           {/* Action buttons */}
           <div className="flex justify-between items-center mt-6">
             <button
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"
+              className="nds-btn mb3-sm css-dnr0el btn-primary-dark  btn-lg"
               onClick={handleAddToCart}
             >
               Add to Cart
             </button>
           </div>
-
-          {/* Facebook Share Button */}
-          <div className="flex justify-between items-center mt-6">
-            <button
-              onClick={handleFacebookShare}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700"
-            >
-              Share on Facebook
-            </button>
+          <div className="bg-gray-100 text-center p-4 rounded-lg shadow-md">
+            <p className="text-gray-900 font-medium">
+              This product is made with at least 20% recycled content by weight
+            </p>
           </div>
         </div>
       </div>

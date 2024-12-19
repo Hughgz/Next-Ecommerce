@@ -19,8 +19,13 @@ const getUser = async (userId) => {
 };
 
 const createUser = async (user) => {
-  const response = await axios.post(`${API_URL_AUTHEN}/register`, user);
-  return response.data;
+  try {
+    const response = await axios.post(`${API_URL_AUTHEN}/register`, user);
+    return response.data;
+  } catch (error) {
+    console.error("Error during registration:", error);
+    throw error;
+  }
 };
 
 const updateUser = async (userId, user) => {
@@ -111,7 +116,6 @@ const updateCartItems = async (userId) => {
     }
   }
 };
-
 
 export default {
   login,

@@ -35,9 +35,6 @@ const Footer = () => {
         </ul>
       </div>
       <div className='footer-socials'>
-        <div className='social-icon-container'><Link href="#"><img src={FacebookIcon} alt="Facebook" /></Link></div>
-        <div className='social-icon-container'><Link href="#"><img src={InstagramIcon} alt="Instagram" /></Link></div>
-        <div className='social-icon-container'><Link href="#"><img src={TwitterIcon} alt="Twitter" /></Link></div>
         <div className='social-icon-container'><Link href="https://share.hsforms.com/10e2076D8T5eAJ8q7uN7zlQsudj8"><img src="https://th.bing.com/th/id/OIP.gUGkQsv8SjrIb-6SLWzOdgHaHa?rs=1&pid=ImgDetMain" alt="Subscriber" /></Link></div>
       </div>
     </div>
